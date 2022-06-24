@@ -1,3 +1,5 @@
+import {Role} from "../../app/helpers/role";
+
 export const columns = [
     {
         name: "ПІБ",
@@ -6,7 +8,7 @@ export const columns = [
     },
     {
         name: "Посада",
-        selector: row => row.role,
+        selector: row => row.role === Role.Admin ? "Aдміністратор" : (row.role === Role.Manager ? "Менеджер" : "Вантажник"),
         sortable: true
     },
     {

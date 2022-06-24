@@ -1,4 +1,6 @@
-const FilterComponent = ({filterText, onFilter, onClear}) => (
+import {Role} from "../app/helpers/role";
+
+const Subheader = ({filterText, onFilter, onClear, onCreate, user}) => (
     <>
         <form className="d-flex">
             <input
@@ -15,8 +17,16 @@ const FilterComponent = ({filterText, onFilter, onClear}) => (
                 type="button" onClick={onClear}>
                 Очистити
             </button>
+
+            {onCreate && (user.role === Role.Admin || user.role === Role.Manager) &&
+                <button
+                    className="btn btn-outline-success ms-2"
+                    type="button" onClick={onCreate}>
+                    Створити
+                </button>
+            }
         </form>
     </>
 );
 
-export default FilterComponent;
+export default Subheader;

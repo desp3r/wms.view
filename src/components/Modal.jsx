@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SlotCreateModal = ({id, label, children}) => {
+const Modal = ({id, label, children}) => {
     return (
             <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={label} aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
@@ -14,4 +14,4 @@ const SlotCreateModal = ({id, label, children}) => {
     );
 };
 
-export default SlotCreateModal;
+export default Modal;

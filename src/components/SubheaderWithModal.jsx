@@ -1,7 +1,8 @@
 import React from 'react';
-import Modal from "../../components/Modal";
+import Modal from "./Modal";
+import {Role} from "../app/helpers/role";
 
-const WarehouseSubheader = ({filterText, onFilter, onClear, children}) => {
+const SubheaderWithModal = ({filterText, onFilter, onClear, children, btnLabel, user}) => {
     return (
         <>
             <form className="d-flex">
@@ -20,12 +21,15 @@ const WarehouseSubheader = ({filterText, onFilter, onClear, children}) => {
                     Очистити
                 </button>
 
-                <button type="button"
-                        className="btn btn-outline-success ms-4"
-                        data-bs-toggle="modal"
-                        data-bs-target="#createSlot">
-                    Створити
-                </button>
+                {(!btnLabel ? (user.role === Role.Admin || user.role === Role.Loader) :
+                        (user.role === Role.Admin || user.role === Role.Manager)) &&
+                    <button type="button"
+                            className="btn btn-outline-success ms-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#createSlot">
+                        {btnLabel ? btnLabel : "Створити"}
+                    </button>
+                }
             </form>
 
             <Modal id="createSlot"
@@ -35,4 +39,4 @@ const WarehouseSubheader = ({filterText, onFilter, onClear, children}) => {
     );
 };
 
-export default WarehouseSubheader;
+export default SubheaderWithModal;

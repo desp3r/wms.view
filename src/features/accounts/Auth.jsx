@@ -7,9 +7,9 @@ import {Toast} from "../../components/Toast"
 
 import {useDispatch} from 'react-redux'
 import {setCredentials} from './authSlice'
-import {useLoginMutation} from './authApiSlice'
+import {useLoginMutation} from './accountApiSlice'
 
-const Login = () => {
+const Auth = () => {
     const [login] = useLoginMutation()
     const dispatch = useDispatch()
     const navigate = useNavigate();
@@ -21,9 +21,9 @@ const Login = () => {
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
-            .email('Email is invalid')
-            .required('Email is required'),
-        password: Yup.string().required('Password is required')
+            .email("Невірний формат пошти")
+            .required("Обов'язкове поле"),
+        password: Yup.string().required("Обов'язкове поле")
     });
 
     return (
@@ -52,7 +52,7 @@ const Login = () => {
                                     <div className="card-body">
                                         <div className="form-group">
                                             <div className="mb-3">
-                                                <label>Email</label>
+                                                <label>Пошта</label>
                                                 <Field name="email" type="text"
                                                        className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')}/>
                                                 <ErrorMessage name="email" component="div"
@@ -60,7 +60,7 @@ const Login = () => {
                                             </div>
                                         </div>
                                         <div className="form-group">
-                                            <label>Password</label>
+                                            <label>Пароль</label>
                                             <Field name="password" type="password"
                                                    className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}/>
                                             <ErrorMessage name="password" component="div"
@@ -86,4 +86,4 @@ const Login = () => {
         </Formik>
     )
 }
-export default Login
+export default Auth

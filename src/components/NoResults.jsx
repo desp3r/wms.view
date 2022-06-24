@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NoResultsComponent = () => {
+const NoResults = () => {
     return (
         <div className="sc-ivTmOn hhFkzl">
             <div className="m-4">Результати пошуку відсутні</div>
@@ -8,4 +8,4 @@ const NoResultsComponent = () => {
     );
 };
 
-export default NoResultsComponent;
+export default NoResults;

@@ -1,29 +1,30 @@
 import React, {useMemo, useState} from 'react';
-import {useGetProductsQuery} from "./usersApiSlice";
+import {useGetAccountsQuery} from "./accountApiSlice";
 
 import DataTable from "react-data-table-component";
 import "react-data-table-component-extensions/dist/index.css";
 
-import {columns} from "./userColumns";
+import {columns} from "./accountColumns";
 import Subheader from "../../components/Subheader";
 import {useNavigate} from "react-router-dom";
 import NoResults from "../../components/NoResults";
 import Spinner from "../../app/Spinner";
 
-const ProductsList = () => {
+const AccountsList = ({user}) => {
     const navigate = useNavigate();
 
     const {
-        data: products,
+        data: accounts,
         isLoading,
         isSuccess
-    } = useGetProductsQuery();
+    } = useGetAccountsQuery();
 
 
     const [filterText, setFilterText] = useState('');
     const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-    const filteredItems = products?.filter(
-        item => item.title && item.title.toLowerCase().includes(filterText.toLowerCase()),
+    const filteredItems = accounts?.filter(
+        item => item.id !== user?.id &&
+            (item.title && item.title.toLowerCase().includes(filterText.toLowerCase())),
     );
 
     const subHeaderComponentMemo = useMemo(() => {
@@ -35,34 +36,34 @@ const ProductsList = () => {
         };
 
         const createNew = () => {
-            navigate("/products/create");
+            navigate("/accounts/create");
         }
 
         return (
             <div>
                 <Subheader onFilter={e => setFilterText(e.target.value)} onClear={handleClear}
-                           filterText={filterText} onCreate={createNew}/>
+                           filterText={filterText} onCreate={createNew} user={user}/>
             </div>
         );
     }, [filterText, resetPaginationToggle]);
 
     const openSelected = (id) => {
-        navigate(`/products/view/${id}`);
+        navigate(`/accounts/view/${id}`);
     }
-
-
 
     return (
         <>
             {isLoading ? (<Spinner/>) : (
                 <div className="container">
                     <DataTable
-                        title="Список продуктів"
+                        title="Користувачі"
                         columns={columns}
                         data={filteredItems}
                         data-tag="allowRowEvents"
                         pagination
-                        paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+                        paginationResetDefaultPage={resetPaginationToggle}
+                        paginationPerPage={5}
+                        paginationRowsPerPageOptions={[5,10,15,20]}
                         subHeader
                         subHeaderComponent={subHeaderComponentMemo}
                         persistTableHead
@@ -86,4 +87,4 @@ const ProductsList = () => {
     );
 };
 
-export default ProductsList;
+export default AccountsList;
